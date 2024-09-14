@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WonderDay 2024</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include local font -->
+    <style>
+        /* Font Definition */
+        @font-face {
+            font-family: 'Nintendo_NTLG_DB_001';
+            src: local('nintendo_NTLG-DB_001');
+        }
+
+        /* Root Variables */
+        :root {
+            --primary-font: 'Nintendo_NTLG_DB_001', sans-serif;
+            --light-bg: #f0f0f0;
+            --dark-bg: #1e1e1e;
+            --light-text: #000;
+            --dark-text: #fff;
+            --highlight-color: #888;
+            --dark-highlight-color: #bbb;
+            --section-bg-color: #ffffff;
+            --section-dark-bg-color: #2e2e2e;
+            --section-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            --section-dark-box-shadow: 0 0 10px rgba(255,255,255,0.1);
+            --line-color: #ddd;
+        }
+
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: var(--primary-font);
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Top Logo Bar */
+        #logo-bar {
+            background-color: #d3d3d3;
+            text-align: center;
+            padding: 20px;
+        }
+
+        body.dark-mode #logo-bar {
+            background-color: #333;
+        }
+
+        #logo-bar img {
+            vertical-align: middle;
+            max-width: 100px;
+            width: 100%;
+            height: auto;
+        }
+
+        #logo-bar .tagline {
+            display: inline-block;
+            margin-left: 15px;
+            vertical-align: middle;
+            font-size: 1.2em;
+        }
+
+        /* Top Info Bar */
+        #info-bar {
+            background-color: #bfbfbf;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body.dark-mode #info-bar {
+            background-color: #444;
+        }
+
+        #info-bar nav {
+            display: flex;
+        }
+
+        #info-bar nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: inherit;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        /* Removed highlight effect */
+        #info-bar nav a::after {
+            display: none;
+        }
+
+        /* Theme Toggle */
+        #theme-toggle {
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: transparent;
+            border: 1px solid currentColor;
+            border-radius: 5px;
+            position: absolute;
+            right: 20px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 40px 20px;
+            margin: 20px;
+            background-color: var(--section-bg-color);
+            color: inherit;
+            border-radius: 15px;
+            box-shadow: var(--section-box-shadow);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .section {
+            background-color: var(--section-dark-bg-color);
+            box-shadow: var(--section-dark-box-shadow);
+        }
+
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center; /* Center align section titles */
+        }
+
+        /* Overview Section */
+        #overview p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        /* Past WonderDays Section */
+        .cards-container {
+            position: relative;
+            width: 100%;
+            height: 650px;
+            margin-top: 50px;
+        }
+
+        .card {
+            position: absolute;
+            width: 90%;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            color: #fff;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.1s ease, top 0.1s ease;
+        }
+
+        .card .card-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: auto;
+            font-size: 2em;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        /* Stack the cards with edges poking out vertically and adjusted spacing */
+        .card:nth-child(1) {
+            top: 0%;
+            left: 0%;
+            z-index: 5;
+        }
+
+        .card:nth-child(2) {
+            top: 10%;
+            left: 5%;
+            z-index: 4;
+        }
+
+        .card:nth-child(3) {
+            top: 20%;
+            left: 10%;
+            z-index: 3;
+        }
+
+        .card:nth-child(4) {
+            top: 30%;
+            left: 15%;
+            z-index: 2;
+        }
+
+        .card:nth-child(5) {
+            top: 40%;
+            left: 20%;
+            z-index: 1;
+        }
+
+        /* Hover Effect: Fast upward movement without scaling */
+        .card:hover {
+            transform: translateY(-20px);
+            transition: transform 0.1s ease;
+        }
+
+        /* Specific Cards */
+        .card[data-year="2021"] {
+            background-color: rgba(28,201,61,0.8);
+            background-image: linear-gradient(
+                rgba(28,201,61,0.7),
+                rgba(28,201,61,0.7)
+            ), url('2021.png');
+        }
+
+        .card[data-year="2022"] {
+            background-color: rgba(79,70,132,0.8);
+            background-image: linear-gradient(
+                rgba(79,70,132,0.7),
+                rgba(79,70,132,0.7)
+            ), url('2022.png');
+        }
+
+        .card[data-year="2023"] {
+            background-color: rgba(23,130,219,0.8);
+            background-image: linear-gradient(
+                rgba(23,130,219,0.7),
+                rgba(23,130,219,0.7)
+            ), url('2023.png');
+        }
+
+        .card[data-year="2024"] {
+            background-color: rgba(139,226,28,0.8);
+            background-image: linear-gradient(
+                rgba(139,226,28,0.7),
+                rgba(139,226,28,0.7)
+            ), url('2024.png');
+        }
+
+        .card[data-year="?"] {
+            background-color: rgba(151,155,157,0.8);
+        }
+
+        /* Dark Mode Adjustments for Cards */
+        body.dark-mode .card[data-year="2021"] {
+            background-color: rgba(20,140,43,0.8);
+            filter: brightness(0.7);
+        }
+
+        body.dark-mode .card[data-year="2022"] {
+            background-color: rgba(55,49,91,0.8);
+            filter: brightness(0.7);
+        }
+
+        body.dark-mode .card[data-year="2023"] {
+            background-color: rgba(16,90,153,0.8);
+            filter: brightness(0.7);
+        }
+
+        body.dark-mode .card[data-year="2024"] {
+            background-color: rgba(97,157,20,0.8);
+            filter: brightness(0.7);
+        }
+
+        body.dark-mode .card[data-year="?"] {
+            background-color: rgba(105,108,110,0.8);
+            filter: brightness(0.7);
+        }
+
+        /* Remove giant question mark and text */
+        .card[data-year="?"] .card-content {
+            font-size: 2em;
+        }
+
+        /* Expand Card */
+        .card.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            height: 90%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            transition: all 0.3s ease-in-out;
+            border-radius: 15px;
+        }
+
+        .card.expanded .card-content {
+            display: none;
+        }
+
+        /* Expanded Card Content */
+        .card-details {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 800px;
+            color: #fff;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .card-details img {
+            max-width: 200px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .card-details h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .card-details h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .card-details p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0 20px;
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 1001;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        /* Footer */
+        #footer {
+            background-color: #d3d3d3;
+            text-align: center;
+            padding: 10px;
+        }
+
+        body.dark-mode #footer {
+            background-color: #333;
+        }
+
+        /* News Section */
+        #news .news-entry {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--line-color);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        #news .news-entry:hover {
+            background-color: #f9f9f9;
+        }
+
+        #news .news-entry h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #news .news-entry .timestamp {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        #news .news-entry p {
+            font-size: 1em;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        /* Thumbnail Image */
+        #news .news-entry .thumbnail {
+            margin-left: auto;
+            max-width: 100px;
+            width: 100%;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        /* Expanded News Content */
+        .news-entry.expanded {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--section-bg-color);
+            color: var(--light-text);
+            transform: translate(0, 0);
+            z-index: 1000;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        body.dark-mode .news-entry.expanded {
+            background-color: var(--section-dark-bg-color);
+        }
+
+        .news-entry.expanded .news-content {
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .news-entry.expanded .close-btn {
+            display: block;
+        }
+
+        .news-entry .close-btn {
+            display: none;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            color: var(--light-text);
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        /* Expanded News Image */
+        .news-entry.expanded {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cards-container {
+                height: 800px;
+            }
+
+            .card {
+                width: 95%;
+                height: 550px;
+            }
+
+            .card:nth-child(1) {
+                top: 0%;
+                left: 2%;
+            }
+
+            .card:nth-child(2) {
+                top: 15%;
+                left: 4%;
+            }
+
+            .card:nth-child(3) {
+                top: 30%;
+                left: 6%;
+            }
+
+            .card:nth-child(4) {
+                top: 45%;
+                left: 8%;
+            }
+
+            .card:nth-child(5) {
+                top: 60%;
+                left: 10%;
+            }
+
+            .card-details h2 {
+                font-size: 2em;
+            }
+
+            .card-details h3 {
+                font-size: 1.2em;
+            }
+
+            .card-details p {
+                font-size: 0.9em;
+            }
+
+            #theme-toggle {
+                position: static;
+                margin-left: auto;
+            }
+
+            #news .news-entry {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #news .news-entry .thumbnail {
+                margin: 10px 0 0 0;
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Logo Bar -->
+    <div id="logo-bar">
+        <img src="wonderday2024.png" alt="WonderDay 2024 Logo">
+        <span class="tagline">For a Brighter Future</span>
+    </div>
+
+    <!-- Top Info Bar -->
+    <div id="info-bar">
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#past-wonderdays">History</a>
+            <a href="#news">News</a>
+            <a href="#studio">Studio</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div id="theme-toggle">System</div>
+    </div>
+
+    <!-- Middle Content -->
+    <div id="content">
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <h2>Overview</h2>
+            <p>
+                Welcome to WonderDay, an annual event held every September
+                14th to celebrate the legacy of tech products released on this
+                day. Join us as we explore the innovations that have shaped
+                our world.
+            </p>
+        </section>
+
+        <!-- Past WonderDays Section -->
+        <section id="past-wonderdays" class="section">
+            <h2>Past WonderDays</h2>
+            <div class="cards-container">
+                <!-- Card for 2021 -->
+                <div class="card" data-year="2021" data-theme="Shaping the Digital World" data-intro="Introduction text for WonderDay 2021.">
+                    <div class="card-content">2021</div>
+                </div>
+                <!-- Card for 2022 -->
+                <div class="card" data-year="2022" data-theme="Hello, Purple" data-intro="Introduction text for WonderDay 2022.">
+                    <div class="card-content">2022</div>
+                </div>
+                <!-- Card for 2023 -->
+                <div class="card" data-year="2023" data-theme="Not only Gaming" data-intro="Introduction text for WonderDay 2023.">
+                    <div class="card-content">2023</div>
+                </div>
+                <!-- Card for 2024 -->
+                <div class="card" data-year="2024" data-theme="For a Brighter Future" data-intro="This year’s **WonderDay** was an absolute blast, filled with unforgettable moments that celebrated the vibrant gaming culture. The theme, *“For a Brighter Future,”* set the tone for the entire event, guiding us through a journey that contrasted the nostalgia of the past with the limitless potential of tomorrow. From exciting Splatoon 3 competitions to the latest roller trends event, it was a dynamic blend of competition, creativity, and chaos.
+
+The day kicked off with a visit to the local game museum, where we explored the evolution of gaming and shared stories of iconic consoles like the GameCube. Then, the energy skyrocketed with the **Latest Roller Trend Event**, headlined by none other than GameCube, the rising star of the Splatoon community, alongside a mysterious guest whose identity stirred intrigue. Throughout the day, unexpected twists kept us on edge—like the sudden invasion of red squares and bizarre font changes that turned our promo posters into cryptic works of art.
+
+Despite the digital hiccups, the event went off smoothly, with game demos, intense battles, and vibrant discussions on the future of gaming. The atmosphere was electric, with every participant fully engaged, all striving for a future brighter than ever. As WonderDay 2024 comes to a close, we’re already counting down to next year, ready to bring even more excitement and innovation. Here's to a future full of wonder!">
+                    <div class="card-content">2024</div>
+                </div>
+                <!-- Card for Future -->
+                <div class="card" data-year="?" data-theme="WonderDays in the future" data-intro="Future holds endless possibilities. What could we possibly be planning for each year? Only time will tell.">
+                    <div class="card-content">?</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="section">
+            <h2>News</h2>
+            <!-- News Entry with Image -->
+            <div class="news-entry" data-title="WonderDay 2024 Announced" data-timestamp="September 1, 2024" data-full="Full news content for WonderDay 2024 announcement." data-image="placeholder.png">
+                <div>
+                    <h3>WonderDay 2024 Announced</h3>
+                    <div class="timestamp">September 1, 2024</div>
+                    <p>Join us for the most exciting WonderDay yet!</p>
+                </div>
+                <img src="placeholder.png" alt="News Thumbnail" class="thumbnail">
+                <div class="close-btn">&times;</div>
+            </div>
+            <!-- News Entry without Image -->
+            <div class="news-entry" data-title="New Partnerships Formed" data-timestamp="August 15, 2024" data-full="Full news content about new partnerships.">
+                <div>
+                    <h3>New Partnerships Formed</h3>
+                    <div class="timestamp">August 15, 2024</div>
+                    <p>We are thrilled to announce new collaborations.</p>
+                </div>
+                <div class="close-btn">&times;</div>
+            </div>
+            <!-- Additional news entries can be added here -->
+        </section>
+
+        <!-- Studio Section -->
+        <section id="studio" class="section">
+            <h2>Studio</h2>
+            <div class="studio-content">
+                <img src="studio.png" alt="Purple Lunchbox Productions">
+                <div class="studio-text">
+                    <h3>PURPLE LUNCHBOX PRODUCTIONS</h3>
+                    <p>
+                        At Purple Lunchbox Productions, we are passionate about
+                        technology and innovation. Our mission is to bring people
+                        together through events like WonderDay to celebrate the
+                        advancements that shape our future.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2>Contact</h2>
+            <p>Twitter: @PurpleLunchbox</p>
+            <p>Discord: PurpleLunchbox#1234</p>
+            <p>Email: contact@purplelunchbox.com</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer">
+        &copy; 2024 Purple Lunchbox Productions. All rights reserved.
+    </div>
+
+    <!-- JavaScript for Interactive Elements and Theme Toggle -->
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        let theme = 'system';
+
+        const setTheme = (mode) => {
+            if (mode === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else if (mode === 'light') {
+                document.body.classList.remove('dark-mode');
+            } else {
+                if (window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }
+            themeToggle.textContent = mode.charAt(0).toUpperCase() +
+                mode.slice(1);
+        };
+
+        themeToggle.addEventListener('click', () => {
+            if (theme === 'system') {
+                theme = 'light';
+            } else if (theme === 'light') {
+                theme = 'dark';
+            } else {
+                theme = 'system';
+            }
+            setTheme(theme);
+        });
+
+        // Initial Theme Setting
+        setTheme(theme);
+
+        // Card Interaction Logic
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (!card.classList.contains('expanded')) {
+                    card.classList.add('expanded');
+                    // Add close button
+                    const closeBtn = document.createElement('a');
+                    closeBtn.classList.add('close-btn');
+                    closeBtn.innerHTML = '&times;';
+                    card.appendChild(closeBtn);
+
+                    // Create card details
+                    const details = document.createElement('div');
+                    details.classList.add('card-details');
+
+                    const year = card.getAttribute('data-year');
+                    const theme = card.getAttribute('data-theme');
+                    const intro = card.getAttribute('data-intro');
+
+                    const logoFile = `${year}logo.png`;
+                    const logoImg = new Image();
+                    logoImg.src = logoFile;
+                    logoImg.alt = `WonderDay ${year} Logo`;
+                    logoImg.onload = () => {
+                        details.insertBefore(logoImg, details.firstChild);
+                    };
+
+                    const title = document.createElement('h2');
+                    if (year === '?') {
+                        title.textContent = theme;
+                    } else {
+                        title.textContent = `WonderDay ${year}`;
+                    }
+                    details.appendChild(title);
+
+                    if (theme && year !== '?') {
+                        const themeElement = document.createElement('h3');
+                        themeElement.textContent = theme;
+                        details.appendChild(themeElement);
+                    }
+
+                    if (intro) {
+                        const introText = document.createElement('p');
+                        introText.textContent = intro;
+                        details.appendChild(introText);
+                    }
+
+                    card.appendChild(details);
+
+                    closeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        card.classList.remove('expanded');
+                        card.removeChild(closeBtn);
+                        card.removeChild(details);
+                    });
+                }
+            });
+        });
+
+        // News Entry Interaction Logic
+        const newsEntries = document.querySelectorAll('.news-entry');
+        newsEntries.forEach(entry => {
+            entry.addEventListener('click', () => {
+                if (!entry.classList.contains('expanded')) {
+                    entry.classList.add('expanded');
+
+                    // Show close button
+                    const closeBtn = entry.querySelector('.close-btn');
+                    closeBtn.style.display = 'block';
+
+                    // Set background image if available
+                    const image = entry.getAttribute('data-image');
+                    if (image) {
+                        entry.style.backgroundImage = `url('${image}')`;
+                    } else {
+                        entry.style.backgroundColor = 'var(--section-bg-color)';
+                    }
+
+                    // Create news content
+                    const content = document.createElement('div');
+                    content.classList.add('news-content');
+
+                    const title = entry.getAttribute('data-title');
+                    const timestamp = entry.getAttribute('data-timestamp');
+                    const fullText = entry.getAttribute('data-full');
+
+                    const titleElement = document.createElement('h2');
+                    titleElement.textContent = title;
+                    content.appendChild(titleElement);
+
+                    const timestampElement = document.createElement('div');
+                    timestampElement.classList.add('timestamp');
+                    timestampElement.textContent = timestamp;
+                    content.appendChild(timestampElement);
+
+                    const fullTextElement = document.createElement('p');
+                    fullTextElement.textContent = fullText;
+                    content.appendChild(fullTextElement);
+
+                    entry.appendChild(content);
+
+                    closeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        entry.classList.remove('expanded');
+                        entry.removeChild(content);
+                        entry.style.backgroundImage = '';
+                        closeBtn.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
